@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'userdashboard/base.html' %} {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% block title %}
+    <title>New Investment</title>
+    {% endblock title %}
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+<body>
+    {% block content %}
+    <div class="dashboard-content">
+        <div class="content-title">
+            <h1>New Investment</h1>
+        </div>
+        <div class="content table-list-card">
+            <div class="table-list-heading">
+                <div class="table-title">New Investment</div>
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-card">
+                        <label for="name">Name</label><br> <input type="text" name="name" id="name" value="{{request.user.first_name}}" disabled>
+                    </div>
+                    <div class="input-card">
+                        <label for="email">Email</label> <br>
+                        <input type="email" name="email" id="email" value="{{request.user.email}}" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-card">
+                        <label for="amount">Amount ($)</label><br>{{form.amount.errors}} {{form.amount}}
+                    </div>
+                    <div class="input-card">
+                        <label for="package">Package</label> <br>
+                        <select name="package" id="package" placeholder="Select an Asset">
+                            <option value="starter">
+                                Starter ($100.00 - $9,999)
+                            </option>
+                            <option value="bronze">Bronze ($10000 - $19999)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-card">
+                        <label for="{{ form.account.id_for_label }}">Account</label> <br> {{ form.account.errors }} {{form.account}}
+                    </div>
+                </div>
+                <div class="deposit-button">
+                    <input class="copy-btn" type="submit" value="Invest">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock content %}
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'userdashboard/base.html'%} {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">{% block title %}
+    <title>Document</title>
+    {% endblock title %}
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+<body>
+    {% block content %}
+    <div class="dashboard-content">
+        <div class="content-title">
+            <h1>Referrals</h1>
+        </div>
+        <div class="card balance">
+            <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xodm="http://www.corel.com/coreldraw/odm/2003" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;"
+                    viewBox="0 0 846.66 1058.325" x="0px" y="0px" fill-rule="evenodd" clip-rule="evenodd"><defs></defs><g><path class="fil0" d="M527.25 648.28c10.45,11.95 -1.54,36.06 -12,24.1l-206.39 -237.01c-5.37,-6.14 -5.22,-18.33 0.13,-24.24l206.26 -236.85c10.46,-11.96 22.45,12.15 12,24.1l-195.9 224.95 195.9 224.95zm150.93 -163.1c43.76,0 79.24,35.48 79.24,79.24 0,43.75 -35.49,79.23 -79.24,79.23 -43.75,0 -79.24,-35.48 -79.24,-79.23 0,-43.76 35.48,-79.24 79.24,-79.24zm0 -417.96c43.76,0 79.24,35.48 79.24,79.24 0,43.75 -35.49,79.23 -79.24,79.23 -43.75,0 -79.24,-35.48 -79.24,-79.23 0,-43.76 35.48,-79.24 79.24,-79.24zm122.48 274.68c-1.14,-46.82 -39.83,-84.6 -86.69,-84.6l-71.58 0c-46.86,0 -85.55,37.78 -86.7,84.6 121.01,0 178.96,0 244.97,0zm-158.27 -104.17l71.58 0c58.48,0 106.29,47.81 106.29,106.29l0 7.67c0,5.4 -4.38,9.79 -9.79,9.79l-264.59 0c-5.4,0 -9.79,-4.39 -9.79,-9.79l0 -7.67c0,-58.49 47.82,-106.29 106.3,-106.29zm35.79 -150.93c-32.95,0 -59.66,26.7 -59.66,59.66 0,32.94 26.71,59.65 59.66,59.65 32.95,0 59.66,-26.71 59.66,-59.65 0,-32.96 -26.71,-59.66 -59.66,-59.66zm122.48 673.06c-1.14,-46.82 -39.83,-84.59 -86.69,-84.59l-71.58 0c-46.86,0 -85.55,37.77 -86.7,84.59 121.01,0 178.96,0 244.97,0zm-158.27 -104.17l71.58 0c58.48,0 106.29,47.81 106.29,106.29l0 7.67c0,5.4 -4.38,9.79 -9.79,9.79l-264.59 0c-5.4,0 -9.79,-4.39 -9.79,-9.79l0 -7.67c0,-58.48 47.82,-106.29 106.3,-106.29zm35.79 -150.93c-32.95,0 -59.66,26.71 -59.66,59.66 0,32.95 26.71,59.65 59.66,59.65 32.95,0 59.66,-26.7 59.66,-59.65 0,-32.95 -26.71,-59.66 -59.66,-59.66zm-509.69 -228.56c43.76,0 79.24,35.48 79.24,79.24 0,43.75 -35.49,79.23 -79.24,79.23 -43.75,0 -79.24,-35.48 -79.24,-79.23 0,-43.76 35.48,-79.24 79.24,-79.24zm-35.79 170.51l71.58 0c58.48,0 106.29,47.81 106.29,106.29l0 7.67c0,5.4 -4.38,9.79 -9.79,9.79l-264.59 0c-5.4,0 -9.79,-4.39 -9.79,-9.79l0 -7.67c0,-58.48 47.82,-106.29 106.3,-106.29z"/></g></svg>
+            </div>
+            <div class="param">
+                <div class="amount">
+                    <h2><span>$</span>26,000.00
+                    </h2>
+                </div>
+                <div class="text">
+                    <p>Referral Balance</p>
+                </div>
+            </div>
+        </div>
+        <div class="referral-link-card">
+            <div class="referral-link-header">
+                <h2>Link</h2>
+            </div>
+            <div class="input-entry">
+                <label for="referral_link">Referral Link</label><br>
+                <input type="url" name="referral_link" id="referral_link" value="https://www.acuteforte.com/referral/w2fj34"><br>
+            </div>
+            <input class="copy-btn" type="button" value="Copy">
+        </div>
+        <div class="content table-list-card">
+            <div class="table-list-heading">
+                <div class="table-title">Referrals</div>
+                <div class="show-entries input-entry">
+                    <form action="" method="get">
+                        <label for="entries">Show</label> <input type="number" name="entries" id="entries">
+                        <span>entries</span>
+                    </form>
+                </div>
+                <div class="search-table input-entry">
+                    <form action="" method="post">
+                        <label for=" search ">Search: </label> <input type="search" name="search" id="search" placeholder="Search">
+                    </form>
+
+                </div>
+            </div>
+            <div class="table-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date joined</th>
+                            <th>Status</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1m2YZy4INx</td>
+                            <td>Peace</td>
+                            <td>peace@hotmail.com</td>
+                            <td>2023/08/12</td>
+                            <td class="trans-complete">
+                                <p>Active</p>
+                            </td>
+                            <td>
+                                <a href="#" class="view-detail">View detail</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+</body>
+
+</html>

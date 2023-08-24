@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'userdashboard/base.html' %} {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% block title %}
+    <title>Document</title>
+    {% endblock title %}
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+<body>
+    {% block content %}
+    <div class="dashboard-content">
+        <div class="content-title">
+            <h1>New Deposit</h1>
+        </div>
+        <div class="content table-list-card">
+            <div class="table-list-heading">
+                <div class="table-title">New Deposit</div>
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-card">
+                        <label for="name">Name</label><br> <input type="text" name="name" id="name" value="{{request.user.first_name}}" disabled>
+                    </div>
+                    <div class="input-card">
+                        <label for="email">Email</label> <br>
+                        <input type="email" name="email" id="email" value="{{request.user.email}}" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-card">
+                        <label for="minimum_deposit">Minimum Deposit ($)</label><br>
+                        <input type="number" name="minimum_deposit" id="minimum_deposit" value="{{transaction_settings.minimum_deposit}}" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-card">
+                        <label for="{{form.amount.id_for_label}}">Amount ($)</label><br>{{form.amount.errors}}{{form.amount}}
+                    </div>
+                    <div class="input-card">
+                        <label for="{{ form.asset.id_for_label }}">Asset</label> <br> {{ form.asset.errors }} {{form.asset}}
+                    </div>
+                </div>
+                <div class="deposit-button">
+                    <input class="copy-btn" type="submit" value="Deposit">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock content %}
+</body>
+
+</html>

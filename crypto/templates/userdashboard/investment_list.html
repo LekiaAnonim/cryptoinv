@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'userdashboard/base.html'%} {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% block title %}
+    <title>Investment List</title>
+    {% endblock %}
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+<body>
+    {% block content %}
+    <div class="dashboard-content">
+        <div class="content-title">
+            <h1>Investment List</h1>
+        </div>
+        <div class="content table-list-card">
+            <div class="table-list-heading">
+                <div class="table-title">List</div>
+                <div class="show-entries input-entry">
+                    <form action="" method="get">
+                        <label for="entries">Show</label> <input type="number" name="entries" id="entries">
+                        <span>entries</span>
+                    </form>
+                </div>
+                <div class="search-table input-entry">
+                    <form action="" method="post">
+                        <label for=" search ">Search: </label> <input type="search" name="search" id="search" placeholder="Search">
+                    </form>
+
+                </div>
+            </div>
+            <div class="table-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Amount</th>
+                            <th>ROI</th>
+                            <th>Current profit</th>
+                            <th>Date Initiated</th>
+                            <th>Status</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1m2YZy4INx</td>
+                            <td>2500</td>
+                            <td>3%</td>
+                            <td>3000</td>
+                            <td>2023/08/12</td>
+                            <td class="trans-complete">
+                                <p>Completed</p>
+                            </td>
+                            <td>
+                                <a href="#" class="view-detail">View detail</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+</body>
+
+</html>

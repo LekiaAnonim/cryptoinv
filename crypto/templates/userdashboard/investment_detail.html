@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'userdashboard/base.html' %} {% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% block title %}
+    <title>Investment Details</title>
+    {% endblock title %}
+
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+
+<body>
+    {% block content %}
+    <div class="dashboard-content">
+        <div class="content-title">
+            <h1>Investment Detail</h1>
+        </div>
+        <div class="details-card">
+            <div class="card-header-1">
+                <div class="detail-invoice_id">
+                    <h2><span>Invoice</span> ID: #1m2YZy4INx</h2>
+                </div>
+                <div class="print-detail" onclick="window.print()">
+                    <div class="print-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xodm="http://www.corel.com/coreldraw/odm/2003" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;"
+                            viewBox="0 0 846.66 1058.325" x="0px" y="0px" fill-rule="evenodd" clip-rule="evenodd"><defs></defs><g><path class="fil0" d="M526.76 350.06l-206.88 0 0 -18.04 206.88 0 0 18.04zm83.69 -33.23c13.38,0 24.21,10.83 24.21,24.21 0,13.36 -10.83,24.2 -24.21,24.2 -13.36,0 -24.2,-10.84 -24.2,-24.2 0,-13.38 10.84,-24.21 24.2,-24.21zm68.1 0c13.36,0 24.19,10.83 24.19,24.21 0,13.36 -10.83,24.2 -24.19,24.2 -13.37,0 -24.21,-10.84 -24.21,-24.2 0,-13.38 10.84,-24.21 24.21,-24.21zm-378.56 432.01l246.67 0 0 18.04 -246.67 0 0 -18.04zm47.85 -61.35l150.97 0 0 18.04 -150.97 0 0 -18.04zm-191.19 -430.63l38.72 0 0.02 -78.68 0 -78.68 -38.74 0 0 157.36zm494.59 0l38.74 0 0 -157.36 -38.71 0 -0.03 157.36zm-437.8 0l419.76 0 0 -175.4 0 -61.63 -419.76 0 0 61.63 0 175.4zm437.8 453.3l29.6 0 0 -129.37c0,-10.61 -4.36,-20.28 -11.36,-27.28 -6.99,-6.99 -16.66,-11.35 -27.27,-11.35l-437.79 0c-10.61,0 -20.28,4.36 -27.28,11.35 -6.99,7 -11.35,16.67 -11.35,27.28l0 129.37 29.62 0 0 -129.37 18.04 0 0 246.05 419.75 0 0 -246.05 18.04 0 0 129.37zm47.64 -90.76l23.49 0c12.29,0 23.47,-5.02 31.58,-13.11 8.07,-8.11 13.11,-19.29 13.11,-31.56l0 -255.14c0,-12.28 -5.04,-23.46 -13.14,-31.56 -8.09,-8.09 -19.27,-13.13 -31.55,-13.13l-14.35 0 -56.77 0 -18.05 0 -419.76 0 -18.05 0 -23.89 0 -32.89 0 -14.34 0c-12.27,0 -23.45,5.04 -31.55,13.13 -8.09,8.1 -13.13,19.28 -13.13,31.56l0 255.14c0,12.27 5.04,23.45 13.13,31.54 8.1,8.1 19.28,13.13 31.55,13.13l23.48 0 0 -38.61c0,-15.6 6.38,-29.78 16.63,-40.04 10.26,-10.25 24.43,-16.63 40.04,-16.63l437.79 0c15.6,0 29.78,6.38 40.03,16.63 10.26,10.26 16.64,24.44 16.64,40.04l0 38.61z"/></g></svg>
+                    </div>
+                    <p>Print</p>
+                </div>
+            </div>
+            <div class="card-header-2">
+                <!-- <div class="address">
+                    <p class="detail-username"><span>To:</span>Bnb</p>
+                    <p class="street-address">
+                        Brandenburgische Strasse 12, Kyllburgweiler, Germany
+                    </p>
+                </div> -->
+                <div class="invoice-detail">
+                    <h3>Invoice</h3>
+                    <ul>
+                        <li><span>ID:</span> # A10LQILbLI</li>
+                        <li><span>Date Started:</span> 2023-07-21 13:10:24</li>
+                        <li><span>Status:</span> Pending</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="detail-table">
+                <div class="table-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Amount</th>
+                                <th>Current Profit</th>
+                                <th>ROI</th>
+                                <th>Expected Profit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>$10,000.00</td>
+                                <td>$3,000.00</td>
+                                <td>3%</td>
+                                <td>$3,000.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <div class="detail-table">
+                <div class="table-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Duration</th>
+                                <th>Current No. of Return</th>
+                                <th>No. of Return</th>
+                                <th>Next Date of Return</th>
+                                <th>Profit Per Return</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10 Days</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>09 Jul 2023 12:00:03 pm</td>
+                                <td>$300.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <br>
+            <a href="#"><input class="cancel-btn" type="button" value="Cancel"></a>
+        </div>
+
+    </div>
+    {% endblock content %}
+</body>
+
+</html>
