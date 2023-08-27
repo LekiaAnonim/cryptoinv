@@ -30,9 +30,9 @@ from auth_app.forms import UserRegisterForm
 
 from crypto.models import SiteSettings
 from django.shortcuts import get_object_or_404
-site_setting = get_object_or_404(SiteSettings, pk=1)
-company_email = site_setting.company_email
-
+# site_setting = get_object_or_404(SiteSettings, pk=1)
+# company_email = site_setting.company_email
+company_email = 'jetticons@gmail.com'
 
 class UserLoginView(View):
     """

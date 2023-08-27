@@ -121,7 +121,7 @@ EMAIL_PORT = 2525
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'cryptoinv-production.up.railway.app']
+    'https://cryptoinv-production.up.railway.app']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_SECURE = True
