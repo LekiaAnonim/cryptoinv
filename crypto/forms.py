@@ -32,7 +32,7 @@ class DepositForm(forms.ModelForm):
 
 class InvestmentForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['amount'].widget.attrs.update({'placeholder': 'Enter amount to invest'})
         self.fields['package'].widget.attrs.update({'placeholder': 'Select package'})
@@ -41,7 +41,7 @@ class InvestmentForm(forms.ModelForm):
             field.required = True
         amount_field = self.fields['amount']
         amount_field.validators.append(MinValueValidator(0))
-        user = self.instance.user
+        # user = self.instance.user
         transaction_settings = get_object_or_404(TransactionSettings, pk=1)
         starting_balance = transaction_settings.starting_account_balance
         # Getting Completed Deposit
