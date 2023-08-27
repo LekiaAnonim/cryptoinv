@@ -419,6 +419,7 @@
         align-items: center;
         margin-bottom: 15px;
         width: 100%;
+        flex-wrap: wrap;
     }
     
     .form-group input,
