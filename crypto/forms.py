@@ -41,19 +41,19 @@ class InvestmentForm(forms.ModelForm):
             field.required = True
         amount_field = self.fields['amount']
         amount_field.validators.append(MinValueValidator(0))
-
+        user = self.instance.user
         transaction_settings = get_object_or_404(TransactionSettings, pk=1)
         starting_balance = transaction_settings.starting_account_balance
         # Getting Completed Deposit
-        completed_deposits = Deposit.objects.filter(profile=self.request.user.account, status='Completed')
+        completed_deposits = Deposit.objects.filter(profile=user.account, status='Completed')
         total_completed_deposits = completed_deposits.count()
-        completed_deposit_balance = completed_deposits.aggregate(Sum('amount'))['amount__sum']
+        completed_deposit_balance = completed_deposits.aggregate(Sum('amount'))['amount__sum'] or 0
         # Getting Completed Investment
-        completed_investments = Investment.objects.filter(profile=self.request.user.account, status='Completed')
+        completed_investments = Investment.objects.filter(profile=user.account, status='Completed')
         total_completed_investments = completed_investments.count()
-        completed_investment_balance = completed_investments.aggregate(Sum('amount'))['amount__sum']
+        completed_investment_balance = completed_investments.aggregate(Sum('amount'))['amount__sum'] or 0
         # Getting the main account balance
-        main_account = MainAccount.objects.filter(profile=self.request.user.account)
+        main_account = MainAccount.objects.filter(profile=user.account)
         main_account_balance = main_account.aggregate(Sum('amount'))['amount__sum'] or 0
         account_balance = main_account_balance+starting_balance+completed_deposit_balance-completed_investment_balance
         amount_field.validators.append(MinValueValidator(account_balance))
