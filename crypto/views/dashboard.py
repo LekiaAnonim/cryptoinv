@@ -40,10 +40,10 @@ class DashboardHome(LoginRequiredMixin,TemplateView):
             account_balance = main_account.aggregate(Sum('amount'))['amount__sum']+starting_balance
         # Getting the profit account balance
         profit_account = ProfitAccount.objects.filter(profile=self.request.user.account)
-        profit_balance = profit_account.aggregate(Sum('amount'))['amount__sum']
+        profit_balance = profit_account.aggregate(Sum('amount'))['amount__sum'] or 0
         # Getting the referral account balance
         referral_account = ReferralAccount.objects.filter(profile=self.request.user.account)
-        referral_balance = referral_account.aggregate(Sum('amount'))['amount__sum']
+        referral_balance = referral_account.aggregate(Sum('amount'))['amount__sum'] or 0
 
         # Getting Total withdrawal
         withdrawals = Withdrawal.objects.filter(profile=self.request.user.account)
@@ -60,11 +60,11 @@ class DashboardHome(LoginRequiredMixin,TemplateView):
         # Getting Completed Deposit
         completed_deposits = Deposit.objects.filter(profile=self.request.user.account, status='Completed')
         total_completed_deposits = completed_deposits.count()
-        completed_deposit_balance = completed_deposits.aggregate(Sum('amount'))['amount__sum']
+        completed_deposit_balance = completed_deposits.aggregate(Sum('amount'))['amount__sum'] or 0
         # Getting Completed Investment
         completed_investments = Investment.objects.filter(profile=self.request.user.account, status='Completed')
         total_completed_investments = completed_investments.count()
-        completed_investment_balance = completed_investments.aggregate(Sum('amount'))['amount__sum']
+        completed_investment_balance = completed_investments.aggregate(Sum('amount'))['amount__sum'] or 0
         # Getting Completed Withdrawal
         completed_withdrawals = Withdrawal.objects.filter(profile=self.request.user.account, status='Completed')
         total_completed_withdrawals = completed_withdrawals.count()
