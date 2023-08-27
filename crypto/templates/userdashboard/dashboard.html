@@ -23,7 +23,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span>$</span>{% if account_balance %}{{account_balance|floatformat:"2g"}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span>$</span>{% if profit_balance %}{{profit_balance|floatformat:"2g"}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -52,7 +52,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span>$</span>{% if referral_balance %}{{referral_balance|floatformat:"2g"}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -67,7 +67,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span></span>{% if total_withdrawal %}{{total_withdrawal}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span></span>{% if total_pending_deposits %}{{total_pending_deposits}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -97,7 +97,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span></span>{% if total_completed_deposits %}{{total_completed_deposits}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -105,17 +105,31 @@
                     </div>
                 </div>
             </div>
-            <div class="card balance">
+            <div class="card pending">
                 <div class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80" x="0px" y="0px"><g data-name="Layer 31"><path d="M60,2.5H4A1.5,1.5,0,0,0,2.5,4V20.29A1.5,1.5,0,0,0,4,21.79h7.93V56a5.51,5.51,0,0,0,5.5,5.5H46.57a5.51,5.51,0,0,0,5.5-5.5V21.79H60a1.5,1.5,0,0,0,1.5-1.5V4A1.5,1.5,0,0,0,60,2.5ZM41.14,45l-8.08,8.08a1.5,1.5,0,0,1-2.13,0L22.86,45A1.5,1.5,0,0,1,25,42.86l5.52,5.52V26.29a1.5,1.5,0,0,1,3,0V48.38L39,42.86a1.49,1.49,0,0,1,2.12,0,1.5,1.5,0,0,1,0,2.12ZM58.5,18.79H52.07V12a1.5,1.5,0,0,0-1.5-1.5H13.43a1.5,1.5,0,0,0-1.5,1.5v6.79H5.5V5.5h53Z"/></g></svg>
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span></span>{% if total_pending_withdrawals %}{{total_pending_withdrawals}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
                         <p>Pending Withdrawals</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card completed">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80" x="0px" y="0px"><g data-name="Layer 31"><path d="M60,2.5H4A1.5,1.5,0,0,0,2.5,4V20.29A1.5,1.5,0,0,0,4,21.79h7.93V56a5.51,5.51,0,0,0,5.5,5.5H46.57a5.51,5.51,0,0,0,5.5-5.5V21.79H60a1.5,1.5,0,0,0,1.5-1.5V4A1.5,1.5,0,0,0,60,2.5ZM41.14,45l-8.08,8.08a1.5,1.5,0,0,1-2.13,0L22.86,45A1.5,1.5,0,0,1,25,42.86l5.52,5.52V26.29a1.5,1.5,0,0,1,3,0V48.38L39,42.86a1.49,1.49,0,0,1,2.12,0,1.5,1.5,0,0,1,0,2.12ZM58.5,18.79H52.07V12a1.5,1.5,0,0,0-1.5-1.5H13.43a1.5,1.5,0,0,0-1.5,1.5v6.79H5.5V5.5h53Z"/></g></svg>
+                </div>
+                <div class="param">
+                    <div class="amount">
+                        <h2><span></span>{% if total_completed_withdrawals %}{{total_completed_withdrawals}}{% else %}0{% endif %}
+                        </h2>
+                    </div>
+                    <div class="text">
+                        <p>Completed Withdrawals</p>
                     </div>
                 </div>
             </div>
@@ -126,7 +140,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span></span>{% if total_investment %}{{total_investment}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -140,7 +154,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span></span>{% if total_ongoing_investments %}{{total_ongoing_investments}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -156,7 +170,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span></span>{% if total_completed_investments %}{{total_completed_investments}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">
@@ -170,7 +184,7 @@
                 </div>
                 <div class="param">
                     <div class="amount">
-                        <h2><span>$</span>26,000.00
+                        <h2><span></span>{% if total_cancelled_investments %}{{total_cancelled_investments}}{% else %}0{% endif %}
                         </h2>
                     </div>
                     <div class="text">

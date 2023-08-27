@@ -46,28 +46,30 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for item in object_list %}
                         <tr>
-                            <td>1m2YZy4INx</td>
-                            <td>2500</td>
-                            <td>0x0R33...</td>
+                            <td>{{item.reference}}</td>
+                            <td>{{item.amount|floatformat:"2g"}}</td>
+                            <td>{{item.wallet_address}}</td>
                             <td>
                                 <div class="asset-type">
-                                    <div class="asset-image"><img src="/static/images/icons/Cjdowner-Cryptocurrency-Flat-Bitcoin-BTC.512.png" alt="BNB"></div>
+                                    <div class="asset-image"><img src="{{item.asset.asset_icon.url}}" alt="{{item.asset.asset_abbr}}"></div>
 
                                     <div>
-                                        <p class="asset-fullname">Bitcoin</p>
-                                        <p class="asset-shortname">BTC</p>
+                                        <p class="asset-fullname">{{item.asset.asset_name}}</p>
+                                        <p class="asset-shortname">{{item.asset.asset_abbr}}</p>
                                     </div>
                                 </div>
                             </td>
-                            <td>2023/08/12</td>
-                            <td class="trans-complete">
-                                <p>Completed</p>
+                            <td>{{item.date_requested}}</td>
+                            <td class="trans-{{item.status}}">
+                                <p>{{item.status}}</p>
                             </td>
                             <td>
-                                <a href="#" class="view-detail">View detail</a>
+                                <a href="{% url 'crypto:withdrawal_detail' item.slug %}" class="view-detail">View detail</a>
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

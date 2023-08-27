@@ -36,13 +36,7 @@
                         <label for="amount">Amount ($)</label><br>{{form.amount.errors}} {{form.amount}}
                     </div>
                     <div class="input-card">
-                        <label for="package">Package</label> <br>
-                        <select name="package" id="package" placeholder="Select an Asset">
-                            <option value="starter">
-                                Starter ($100.00 - $9,999)
-                            </option>
-                            <option value="bronze">Bronze ($10000 - $19999)</option>
-                        </select>
+                        <label for="{{form.package.id_for_label}}">Package</label> <br>{{form.package.errors}} {{form.package}}
                     </div>
                 </div>
                 <div class="form-group">

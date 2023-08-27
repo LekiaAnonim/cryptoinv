@@ -16,6 +16,15 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+import environ
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
+import dj_database_url
+# import boto3
+env = environ.Env(
+    DEBUB=(bool, True)
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,7 +38,7 @@ SECRET_KEY = 'django-insecure-zf0d$q+wv3=la(49^aes0!ht!z(r(p*^$%m6b2e+$b$dr3_*i^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,8 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'crypto'
+    'crypto',
+    'auth_app',
+    'main',
 ]
 
 MIDDLEWARE = [
@@ -87,14 +97,25 @@ DATABASES = {
     }
 }
 
+# 
+
 cloudinary.config(
     cloud_name="lekiaprosper",
     api_key="666558139559246",
     api_secret="msWiQ9tiGPF5oT28VwwaZz_bXSA",
 )
 
+EMAIL_HOST = 'smtp.elasticemail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 2525
+
+# EMAIL_HOST_USER = env('DEFAULT_FROM_EMAIL')
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+
+
 CSRF_TRUSTED_ORIGINS = [
-    'https://8c18-102-88-34-144.eu.ngrok.io', 'https://uecom-production.up.railway.app']
+    'https://uecom-production.up.railway.app']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_SECURE = True

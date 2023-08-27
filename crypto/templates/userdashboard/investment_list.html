@@ -46,19 +46,21 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for item in object_list %} {% if item %}
                         <tr>
-                            <td>1m2YZy4INx</td>
-                            <td>2500</td>
-                            <td>3%</td>
-                            <td>3000</td>
-                            <td>2023/08/12</td>
-                            <td class="trans-complete">
-                                <p>Completed</p>
+                            <td>{{item.reference}}</td>
+                            <td>{{item.amount|floatformat:"2g"}}</td>
+                            <td>{{item.package.roi}}%</td>
+                            <td>{{item.current_profit|floatformat:"2g"}}</td>
+                            <td>{{item.date_initiated}}</td>
+                            <td class="trans-{{item.status}}">
+                                <p>{{item.status}}</p>
                             </td>
                             <td>
-                                <a href="#" class="view-detail">View detail</a>
+                                <a href="{% url 'crypto:investment_detail' item.slug %}" class="view-detail">View detail</a>
                             </td>
                         </tr>
+                        {% endif %} {% endfor %}
                     </tbody>
                 </table>
             </div>

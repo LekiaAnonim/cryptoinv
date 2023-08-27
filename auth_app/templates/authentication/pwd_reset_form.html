@@ -1,0 +1,20 @@
+ {% extends 'authentication/base.html' %} {% block content %}
+<div class="display-sign-container">
+    <div class=" sign-up-container">
+        <div class="sign-up-card">
+            <div>
+                <h2 class="font-weight-bold ">Reset Password</h2>
+                <p class="forget-password-text ">Forgotten your password? Enter your email address below, and we'll email instructions for setting a new one.</p>
+            </div>
+            <form method="post " action="{% url 'auth_app:password_reset' %} ">
+                {% csrf_token %}
+                <div class="form-container ">
+                    {{ form }}
+                </div>
+                <input class="sign-up-button " type="submit " value="Reset password " />
+            </form>
+            <a class="create-profile-link " href="{% url 'main:home' %} ">Return home</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

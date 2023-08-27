@@ -1,0 +1,10 @@
+{% extends "authentication/base.html" %} {% load i18n %} {% block content %}
+<div class="display-sign-container">
+    <div class=" sign-up-card ">
+        <h1>Logged out!</h1> <br>
+        <a href="{% url 'auth_app:login'%} ">Click here to login again.</a> <br> <br>
+        <p>OR</p><br>
+        <a class="create-profile-link " href="{% url 'main:home' %} ">Return home</a>{% endblock %}
+    </div>
+
+</div>

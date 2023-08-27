@@ -1,0 +1,87 @@
+@font-face {
+    font-family: Heebo;
+    src: url(/static/fonts/Heebo-VariableFont_wght.ttf);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Heebo, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+ :root {
+    --background-grey: rgb(225, 231, 236);
+    --side-bar-blue: #023047;
+    --text-black: black;
+    --text-grey: rgb(136, 136, 136);
+    --active-white: white;
+    --inactive-white: rgba(221, 221, 221, 0.863);
+    --green: rgb(28, 153, 116);
+    --balance: blue;
+    --total: purple;
+    --pending: orange;
+    --completed: green;
+    --ongoing: pink;
+    --cancelled: red;
+}
+
+.display-sign-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: rgb(138, 138, 226);
+}
+
+.sign-up-card {
+    top: auto;
+    background-color: var(--side-bar-blue);
+    width: fit-content;
+    min-width: 280px;
+    max-width: 350px;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.sign-up-card h1 {
+    color: var(--active-white);
+    margin-bottom: 40px;
+}
+
+input {
+    height: 25px;
+    border-radius: 10px;
+    outline: 1px solid var(--background-grey);
+    border: none;
+    padding-left: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.sign-up-card a,
+p,
+label {
+    color: var(--active-white);
+    border: none;
+    font-weight: 100;
+    text-decoration: none;
+}
+
+.sign-up-button {
+    width: fit-content !important;
+    background-color: rgb(138, 138, 226);
+    /* padding-left: none; */
+    padding: 15px 15px;
+    margin-top: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-up-button:hover {
+    background-color: #3f96c2;
+}

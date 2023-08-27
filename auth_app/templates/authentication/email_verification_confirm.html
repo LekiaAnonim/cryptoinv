@@ -1,0 +1,12 @@
+{% extends 'authentication/base.html' %} {% load i18n %} {% block content %}
+<div class="display-sign-container" style="z-index: 1000;">
+    <div class="sign-up-container">
+
+        <div class="sign-up-card">
+            <h5>Please confirm your email address to complete the registration.</h5>
+        </div>
+        <a class="create-profile-link" href="{% url 'main:home' %}">Return home</a>
+    </div>
+</div>
+
+{% endblock content %}

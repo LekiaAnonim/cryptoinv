@@ -17,7 +17,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 from django.contrib.auth.views import (PasswordResetDoneView, PasswordResetConfirmView,
                                         PasswordResetCompleteView, PasswordChangeView,
-                                       PasswordChangeDoneView, PasswordResetView)
+                                       PasswordChangeDoneView, PasswordResetView, LogoutView)
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.generic import View
@@ -26,13 +26,19 @@ from django.contrib.auth.forms import (
     AuthenticationForm,
 )
 from django.urls import reverse_lazy
-from crypto.forms import UserRegisterForm
+from auth_app.forms import UserRegisterForm
+
+from crypto.models import SiteSettings
+from django.shortcuts import get_object_or_404
+site_setting = get_object_or_404(SiteSettings, pk=1)
+company_email = site_setting.company_email
+
 
 class UserLoginView(View):
     """
      Logs user into dashboard.
     """
-    template_name = 'registration/login.html'
+    template_name = 'authentication/login.html'
     context_object = {"login_form": AuthenticationForm}
 
     def get(self, request, *args, **kwargs):
@@ -50,8 +56,8 @@ class UserLoginView(View):
             
             login(request, user)
             messages.success(request, f"Login Successful ! "
-                                f"Welcome {user.username}. Update your User profile if you have not done so. Ignore this message if your User profile is upto date.")
-            return redirect('ue_app:home')
+                                f"Welcome {user.username}.")
+            return redirect('crypto:dashboard')
 
         else:
             messages.error(request,
@@ -61,30 +67,32 @@ class UserLoginView(View):
         
 
 
-
+class LogoutView(LogoutView):
+    template_name = 'authentication/logged_out.html'
+    
 class PasswordResetView(PasswordResetView):
-    template_name = 'registration/pwd_reset_form.html'
-    email_template_name = "registration/email_text/password_reset_email.html"
-    from_email = 'lekiaprosper@gmail.com'
-    subject_template_name = "registration/email_text/password_reset_subject.txt"
-    success_url = reverse_lazy("ue_app:password_reset_done")
+    template_name = 'authentication/pwd_reset_form.html'
+    email_template_name = "authentication/email_text/password_reset_email.html"
+    from_email = company_email
+    subject_template_name = "authentication/email_text/password_reset_subject.txt"
+    success_url = reverse_lazy("auth_app:password_reset_done")
 
 class PasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'registration/email_text/password_reset_done.html' 
+    template_name = 'authentication/password_reset_done.html' 
 
 class PasswordResetConfirmView(PasswordResetConfirmView):
-    template_name = 'registration/email_text/password_reset_confirm.html'
-    success_url = reverse_lazy("ue_app:password_reset_complete")
+    template_name = 'authentication/password_reset_confirm.html'
+    success_url = reverse_lazy("auth_app:password_reset_complete")
 
 class PasswordResetCompleteView(PasswordResetCompleteView):
-    template_name = 'registration/email_text/password_reset_complete.html'
+    template_name = 'authentication/password_reset_complete.html'
 
 class PasswordChangeView(PasswordChangeView):
-    template_name = 'registration/email_text/password_change_form.html'
-    success_url = reverse_lazy("ue_app:password_change_done")
+    template_name = 'authentication/password_change_form.html'
+    success_url = reverse_lazy("auth_app:password_change_done")
 
 class PasswordChangeDoneView(PasswordChangeDoneView):
-    template_name = 'registration/email_text/password_change_done.html'
+    template_name = 'authentication/password_change_done.html'
 
 
 
@@ -96,7 +104,7 @@ class UserRegisterView(View):
     """
       View to let users register
     """
-    template_name = 'registration/register.html'
+    template_name = 'authentication/register.html'
     context = {
         "register_form": UserRegisterForm()
     }
@@ -117,7 +125,7 @@ class UserRegisterView(View):
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your account.'
-            message = render_to_string('registration/activate_email.html'
+            message = render_to_string('authentication/activate_email.html'
                                        , {
                 'user': user,
                 'domain': current_site.domain,
@@ -126,7 +134,7 @@ class UserRegisterView(View):
                 'protocol': 'http',
             }
             )
-            from_email = 'prosperlekia@gmail.com'
+            from_email = company_email
             to_email = register_form.cleaned_data.get('email')
             print(to_email)
             print(message)
@@ -135,7 +143,7 @@ class UserRegisterView(View):
             )
             email.send()
 
-            return HttpResponseRedirect(reverse_lazy('ue_app:email_verification_confirm'))
+            return HttpResponseRedirect(reverse_lazy('auth_app:email_verification_confirm'))
 
         else:
             messages.error(request, "Please provide valid information.")
@@ -143,7 +151,7 @@ class UserRegisterView(View):
             return render(request, self.template_name, self.context)
 
     def get_success_url(self):
-        return reverse('ue_app:home')
+        return reverse('main:home')
 
 
 def activate(request, uidb64, token):
@@ -158,14 +166,14 @@ def activate(request, uidb64, token):
         login(request, user)
         messages.success(
             request, f'Hi {user.username}, your registration was successful!! .')
-        return reverse('ue_app:home')
+        return reverse('main:home')
     else:
-        return reverse_lazy('ue_app:email_verification_invalid')
+        return reverse_lazy('auth_app:email_verification_invalid')
 
 
 class EmailVerificationConfirm(TemplateView):
-    template_name = 'registration/email_verification_confirm.html'
+    template_name = 'authentication/email_verification_confirm.html'
 
 
 class EmailVerificationInvalid(TemplateView):
-    template_name = 'registration/email_verification_invalid.html'
+    template_name = 'authentication/email_verification_invalid.html'

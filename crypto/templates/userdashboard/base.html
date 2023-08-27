@@ -19,7 +19,7 @@
                 <div class="dashboard-sidebar disappear">
                     <div class="sidebar-header">
                         <div class="logo-text">
-                            <div class="logo"></div>
+                            <div class="logo"><img src="{% static 'images/Digitalbitcoin.png' %}" alt=""></div>
                             <div class="text">
                                 <p class="site-name">CryptoInv</p>
                                 <p class="sub-text">Dashboard</p>
@@ -97,6 +97,14 @@
                                 <a href="#">Settings</a>
                             </div>
                         </div>
+                        <div class="menu">
+                            <div class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80" x="0px" y="0px"><g><path d="M51.42,34.04A19.42,19.42,0,1,1,24.7,16.049a1.5,1.5,0,0,1,1.124,2.782,16.42,16.42,0,1,0,12.357,0A1.5,1.5,0,0,1,39.3,16.049,19.313,19.313,0,0,1,51.42,34.04ZM32,32.2a1.5,1.5,0,0,0,1.5-1.5V12.04a1.5,1.5,0,0,0-3,0V30.7A1.5,1.5,0,0,0,32,32.2Z"/></g></svg>
+                            </div>
+                            <div class="menu-text">
+                                <a href="{% url 'auth_app:logout' %}">Log Out</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endblock sidebar %} {% block header %}
@@ -110,7 +118,7 @@
                         </div>
                     </div>
                     <div class="user-name circle-border">
-                        <p>PN</p>
+                        <p>{{request.user.username|first}}</p>
                     </div>
                 </div>
                 {% endblock header %}

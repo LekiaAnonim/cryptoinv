@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% block title %} {% endblock title %} {% block styles %}
+    <link rel="stylesheet" href="/static/css/style.css"> {% endblock styles %}
+</head>
+
+<body>
+    <main>
+        <div class="main-container">
+            {% block messages %} {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <p {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %} {% endblock messages %} {% block content %} {% endblock content %}
+        </div>
+    </main>
+    {% block scripts %} {% endblock scripts %}
+</body>
+
+</html>

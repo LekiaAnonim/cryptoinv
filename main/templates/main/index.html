@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}{% load static %} {% block content %}
+<div class="landing-container">
+    <div class="nav-header">
+        <nav class="nav-bar">
+            <div class="logo"><img src="static/images/Digitalbitcoin.png" alt=""></div>
+            <div class="nav-menus">
+                <div class="menu"><a href="{% url 'auth_app:signup' %}">Sign up</a></div>
+                <div class="menu">
+                    <a href="{% url 'auth_app:login' %}">Login</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="cta">
+        <div class="main-cta">
+            <h1 class="bold-cta">Time to In Invest in Crypto</h1>
+            <p class="subtext-cta">Join the largest secure cryptocurrency investment platform.</p>
+        </div>
+        <a href="{% url 'auth_app:signup' %}"><button class="get-started">Get Started Now</button></a>
+    </div>
+</div>{% endblock content %}

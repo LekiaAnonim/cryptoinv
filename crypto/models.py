@@ -6,6 +6,7 @@ from cloudinary.models import CloudinaryField
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
+from datetime import datetime, timedelta
 import random
 import string
 
@@ -43,7 +44,6 @@ class Profile(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.user.first_name, allow_unicode=True)
-        self.slug = self.user.first_name
         self.last_name = self.user.last_name
         super(Profile, self).save(*args, **kwargs)
 
@@ -54,11 +54,33 @@ class Asset(models.Model):
 
     def __str__(self):
         return f"{self.asset_name}"
+    
+class PackageType(models.Model):
+    package_name = models.CharField(max_length=200, null=True)
 
+    def __str__(self) -> str:
+        return self.package_name
+class Package(models.Model):
+    package_type = models.ForeignKey(PackageType, on_delete=models.CASCADE, null=True)
+    min_investment = models.DecimalField(decimal_places=2, max_digits=100, null=True, blank=True)
+    max_investment = models.DecimalField(decimal_places=2, max_digits=100, null=True, blank=True)
+    duration = models.IntegerField(null=True)
+    current_no_of_return = models.IntegerField(null=True)
+    no_of_return = models.IntegerField(null=True)
+    # profit_per_return = models.DecimalField(decimal_places=2, max_digits=100, null=True, blank=True)
+    roi = models.DecimalField(decimal_places=1, max_digits=100, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.package_type.package_name}({self.min_investment} - {self.max_investment})"
 
 class SiteSettings(models.Model):
     site_name = models.CharField(max_length=100, null=True, blank=True)
     site_logo = CloudinaryField('image', null=True, blank=True)
+    company_email = models.EmailField(max_length=500, unique=True, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Site Settings'
+
     def save(self, *args, **kwargs):
         if not self.pk and SiteSettings.objects.exists():
         # if you'll not check for self.pk 
@@ -68,6 +90,11 @@ class SiteSettings(models.Model):
 
 class TransactionSettings(models.Model):
     minimum_deposit = models.DecimalField(decimal_places=2, default=100, max_digits=100, null=True, blank=True)
+    company_wallet_address = models.CharField(max_length=500, null=True)
+    starting_account_balance = models.DecimalField(decimal_places=2, default=100, max_digits=100, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Transaction Settings'
     def save(self, *args, **kwargs):
         if not self.pk and TransactionSettings.objects.exists():
         # if you'll not check for self.pk 
@@ -79,13 +106,13 @@ class Deposit(models.Model):
     profile = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='deposit_user')
     reference = models.CharField(default=random_alphanumeric_string(), max_length=50, null=True, editable=True)
     slug = models.SlugField(null=True,  max_length=500)
-    amount = models.DecimalField(decimal_places=2, max_digits=100, null=True)
+    amount = models.DecimalField(decimal_places=2, max_digits=100, null=True, default=0)
     asset = models.ForeignKey(Asset, null=True, on_delete=models.SET_NULL, related_name='deposit_asset')
     date_initiated = models.DateTimeField(auto_now=True)
     STATUS_CHOICES = (
-        ('completed', 'Completed'),
-        ('pending', 'Pending'),
-        ('cancelled', 'Cancelled'),
+        ('Completed', 'Completed'),
+        ('Pending', 'Pending'),
+        ('Cancelled', 'Cancelled'),
     )
     status = models.CharField(null=True,
         max_length=100, choices=STATUS_CHOICES, default='Completed')
@@ -95,24 +122,22 @@ class Deposit(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.reference, allow_unicode=True)
-        self.slug = self.reference
         super(Deposit, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('crypto:deposit_detail', kwargs={'username': self.user.username.lower(), 'slug': self.slug})
+        return reverse('crypto:deposit_detail', kwargs={'slug': self.slug})
 
 class Investment(models.Model):
     profile = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='invest_user')
     reference = models.CharField(default=random_alphanumeric_string(), max_length=50, null=True, editable=True)
     slug = models.SlugField(null=True,  max_length=500)
-    amount =  models.DecimalField(decimal_places=2, max_digits=100, null=True)
-    roi = models.DecimalField(decimal_places=1, max_digits=2, null=True, blank=True)
-    current_profit = models.DecimalField(decimal_places=2, max_digits=100, null=True, blank=True)
+    amount =  models.DecimalField(decimal_places=2, max_digits=100, null=True, default=0)
+    package = models.ForeignKey(Package, null=True, on_delete=models.SET_NULL)
     date_initiated = models.DateTimeField(auto_now=True)
     STATUS_CHOICES = (
-        ('completed', 'Completed'),
-        ('pending', 'Pending'),
-        ('cancelled', 'Cancelled'),
+        ('Completed', 'Completed'),
+        ('Ongoing', 'Ongoing'),
+        ('Cancelled', 'Cancelled'),
     )
     status = models.CharField(null=True,
         max_length=100, choices=STATUS_CHOICES, default='Completed')
@@ -126,27 +151,46 @@ class Investment(models.Model):
     def __str__(self):
         return f"{self.profile.user.username}-{self.reference}-{self.date_initiated}-{self.amount}-{self.pk}"
     
+    @property
+    def profit_per_return(self):
+        profit = (self.package.roi*self.amount)/100
+        return profit
+    
+    @property
+    def current_profit(self):
+        profit = (self.package.current_no_of_return*self.package.roi*self.amount)/100
+        return profit
+    
+    @property
+    def expected_profit(self):
+        profit = (self.package.no_of_return*self.package.roi*self.amount)/100
+        return profit
+    
+    @property
+    def next_date_of_return(self):
+        next_date = self.date_initiated + timedelta( days = self.package.duration)
+        return next_date
+    
     def save(self, *args, **kwargs):
         self.slug = slugify(self.reference, allow_unicode=True)
-        self.slug = self.reference
         super(Investment, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('crypto:investment_detail', kwargs={'username': self.user.username.lower(), 'slug': self.slug})
+        return reverse('crypto:investment_detail', kwargs={'slug': self.slug})
     
 
 class Withdrawal(models.Model):
     profile = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='withdrawal_user')
     reference = models.CharField(default=random_alphanumeric_string(), max_length=50, null=True, editable=True)
     slug = models.SlugField(null=True,  max_length=500)
-    amount=  models.DecimalField(decimal_places=2, max_digits=100, null=True)
+    amount=  models.DecimalField(decimal_places=2, max_digits=100, null=True, default=0)
     asset = models.ForeignKey(Asset, null=True, on_delete=models.SET_NULL, related_name='withdrawal_asset')
     wallet_address = models.CharField(max_length=100, null=True, blank=True)
     date_requested = models.DateTimeField(auto_now=True)
     STATUS_CHOICES = (
-        ('completed', 'Completed'),
-        ('pending', 'Pending'),
-        ('cancelled', 'Cancelled'),
+        ('Completed', 'Completed'),
+        ('Pending', 'Pending'),
+        ('Cancelled', 'Cancelled'),
     )
     status = models.CharField(null=True,
         max_length=100, choices=STATUS_CHOICES, default='Completed')
@@ -163,15 +207,14 @@ class Withdrawal(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.reference, allow_unicode=True)
-        self.slug = self.reference
         super(Withdrawal, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('crypto:withdrawal_detail', kwargs={'username': self.user.username.lower(), 'slug': self.slug})
+        return reverse('crypto:withdrawal_detail', kwargs={'slug': self.slug})
     
 class MainAccount(models.Model):
     profile = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='account_user')
-    amount=  models.DecimalField(decimal_places=2, max_digits=100, null=True)
+    amount=  models.DecimalField(decimal_places=2, max_digits=100, null=True, default=0)
     date_initiated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -179,7 +222,7 @@ class MainAccount(models.Model):
     
 class ProfitAccount(models.Model):
     profile = models.ForeignKey(Profile,null=True, on_delete=models.SET_NULL, related_name='profit_user')
-    amount=  models.DecimalField(decimal_places=2, max_digits=100, null=True)
+    amount=  models.DecimalField(decimal_places=2, max_digits=100, null=True, default=0)
     date_initiated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -187,7 +230,7 @@ class ProfitAccount(models.Model):
     
 class ReferralAccount(models.Model):
     profile = models.ForeignKey(Profile,  null=True, on_delete=models.SET_NULL, related_name='referral_user')
-    amount=  models.DecimalField(decimal_places=2, max_digits=100, null=True)
+    amount=  models.DecimalField(decimal_places=2, max_digits=100, null=True, default=0)
     date_initiated = models.DateTimeField(auto_now=True)
 
     def __str__(self):

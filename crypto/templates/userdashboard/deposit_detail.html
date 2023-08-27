@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends 'userdashboard/base.html %} {% load static %}
+{% extends 'userdashboard/base.html' %} {% load static %}
 
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
         <div class="details-card">
             <div class="card-header-1">
                 <div class="detail-invoice_id">
-                    <h2><span>Invoice</span> ID: #1m2YZy4INx</h2>
+                    <h2><span>Invoice</span> ID: #{{object.reference}}</h2>
                 </div>
                 <div class="print-detail" onclick="window.print()">
                     <div class="print-icon">
@@ -31,17 +31,17 @@
             </div>
             <div class="card-header-2">
                 <div class="address">
-                    <p class="detail-username"><span>To:</span>Bnb</p>
+                    <p class="detail-username"><span>To:</span> {{request.user.first_name}}</p>
                     <p class="street-address">
-                        Brandenburgische Strasse 12, Kyllburgweiler, Germany
+                        {{request.user.account.address}}
                     </p>
                 </div>
                 <div class="invoice-detail">
                     <h3>Invoice</h3>
                     <ul>
-                        <li><span>ID:</span> # A10LQILbLI</li>
-                        <li><span>Creation Date:</span> 2023-07-21 13:10:24</li>
-                        <li><span>Status:</span> Pending</li>
+                        <li><span>ID:</span> # {{object.reference}}</li>
+                        <li><span>Creation Date:</span> {{object.date_initiated}}</li>
+                        <li class="trans-{{object.status}}"><span>Status:</span> {{object.status}}</li>
                     </ul>
                 </div>
             </div>
@@ -61,9 +61,9 @@
                             <tr>
                                 <td>1</td>
                                 <td>Account Funding</td>
-                                <td>$10,000.00</td>
-                                <td>BTC</td>
-                                <td>128Whb8dbw8bhv83uenf 939rn4un </td>
+                                <td>${{object.amount|floatformat:"2g"}}</td>
+                                <td>{{object.asset.asset_abbr}}</td>
+                                <td>{{transaction_settings.company_wallet_address}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -71,14 +71,28 @@
             </div>
             <hr>
             <div class="copy-info">
-                <p>You are to send <span>10,000.00 of BTC </span> to the address <span class="copy-address">12hbdhdu3djneheuuce838u92idh</span>. <br> After making payment, contact support for instant crediting.
+                <p>You are to send <span>{{object.amount|floatformat:"2g"}} of {{object.asset.asset_abbr}} </span> to the address <span id="copy-address">{{transaction_settings.company_wallet_address}}</span>. <br> After making payment, contact support for
+                    instant crediting.
                 </p>
                 <br>
                 <input class="copy-btn" type="button" value="Copy">
+                <script>
+                    let copy_address = document.getElementById('copy-address').innerText;
+                    async function copyTextToClipboard(textToCopy) {
+                        try {
+                            await navigator.clipboard.writeText(textToCopy);
+                            window.alert(`${copy_address} copied to clipboard`)
+                        } catch (error) {
+                            console.alert('failed to copy wallet address to clipboard. error=' + error);
+                        }
+                    }
+                    let copyBtn = document.querySelector('.copy-btn');
+                    copyBtn.addEventListener('click', () => copyTextToClipboard(copy_address))
+                </script>
             </div>
             <hr>
             <br>
-            <a href="#"><input class="cancel-btn" type="button" value="Cancel"></a>
+            <a href="{% url 'crypto:withdrawal_list' %}"><input class="cancel-btn" type="button" value="Cancel"></a>
         </div>
 
     </div>

@@ -20,7 +20,7 @@
         <div class="details-card">
             <div class="card-header-1">
                 <div class="detail-invoice_id">
-                    <h2><span>Invoice</span> ID: #1m2YZy4INx</h2>
+                    <h2><span>Invoice</span> ID: #{{object.reference}}</h2>
                 </div>
                 <div class="print-detail" onclick="window.print()">
                     <div class="print-icon">
@@ -31,18 +31,12 @@
                 </div>
             </div>
             <div class="card-header-2">
-                <!-- <div class="address">
-                    <p class="detail-username"><span>To:</span>Bnb</p>
-                    <p class="street-address">
-                        Brandenburgische Strasse 12, Kyllburgweiler, Germany
-                    </p>
-                </div> -->
                 <div class="invoice-detail">
                     <h3>Invoice</h3>
                     <ul>
-                        <li><span>ID:</span> # A10LQILbLI</li>
-                        <li><span>Date Started:</span> 2023-07-21 13:10:24</li>
-                        <li><span>Status:</span> Pending</li>
+                        <li><span>ID:</span> # {{object.reference}}</li>
+                        <li><span>Date Started:</span> {{object.date_initiated}}</li>
+                        <li class="trans-{{object.status}}"><span>Status:</span> {{object.status}}</li>
                     </ul>
                 </div>
             </div>
@@ -61,10 +55,10 @@
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>$10,000.00</td>
-                                <td>$3,000.00</td>
-                                <td>3%</td>
-                                <td>$3,000.00</td>
+                                <td>${{object.amount|floatformat:"2g"}}</td>
+                                <td>${{object.current_profit|floatformat:"2g"}}</td>
+                                <td>{{object.package.roi}}%</td>
+                                <td>${{object.expected_profit|floatformat:"2g"}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -85,11 +79,11 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>10 Days</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>09 Jul 2023 12:00:03 pm</td>
-                                <td>$300.00</td>
+                                <td>{{object.package.duration}}</td>
+                                <td>{{object.package.current_no_of_return}}</td>
+                                <td>{{object.package.no_of_return}}</td>
+                                <td>{{object.next_date_of_return}}</td>
+                                <td>{{object.profit_per_return|floatformat:"2g"}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -97,7 +91,7 @@
             </div>
 
             <br>
-            <a href="#"><input class="cancel-btn" type="button" value="Cancel"></a>
+            <a href="{% url 'crypto:investment_list' %}"><input class="cancel-btn" type="button" value="Cancel"></a>
         </div>
 
     </div>
