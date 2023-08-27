@@ -90,12 +90,18 @@ WSGI_APPLICATION = 'crypto_inv.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(default='postgresql://postgres:TqFElYlOt9DIp2dqXKnM@containers-us-west-51.railway.app:7116/railway', conn_max_age=1800),
 }
+
+
 
 # 
 
@@ -115,7 +121,7 @@ EMAIL_PORT = 2525
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://uecom-production.up.railway.app']
+    'cryptoinv-production.up.railway.app']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_SECURE = True
