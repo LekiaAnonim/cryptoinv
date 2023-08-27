@@ -32,11 +32,13 @@ class DepositForm(forms.ModelForm):
 
 class InvestmentForm(forms.ModelForm):
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['amount'].widget.attrs.update({'placeholder': 'Enter amount to invest'})
         self.fields['package'].widget.attrs.update({'placeholder': 'Select package'})
         self.fields['account'].widget.attrs.update({'placeholder': 'Select an account'})
+
+        user = kwargs.pop('user')
         for field_name, field in self.fields.items():
             field.required = True
         amount_field = self.fields['amount']
