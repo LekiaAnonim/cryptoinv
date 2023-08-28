@@ -22,7 +22,7 @@ import os
 import dj_database_url
 # import boto3
 env = environ.Env(
-    DEBUB=(bool, False)
+    DEBUB=(bool, True)
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,7 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-zf0d$q+wv3=la(49^aes0!ht!z(r(p*^$%m6b2e+$b$dr3_*i^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
