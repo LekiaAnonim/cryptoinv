@@ -14,6 +14,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Sum, Count
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.validators import MinValueValidator
 def random_alphanumeric_string():
     return ''.join(
         random.choices(
@@ -138,6 +139,31 @@ class InvestmentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.profile = self.request.user.account
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        amount_field = form.cleaned_data['amount']
+        # user = self.instance.user
+        transaction_settings = get_object_or_404(TransactionSettings, pk=1)
+        starting_balance = transaction_settings.starting_account_balance
+        # Getting Completed Deposit
+        completed_deposits = Deposit.objects.filter(profile=self.request.user.account, status='Completed')
+        total_completed_deposits = completed_deposits.count()
+        completed_deposit_balance = completed_deposits.aggregate(Sum('amount'))['amount__sum'] or 0
+        # Getting Completed Investment
+        completed_investments = Investment.objects.filter(profile=self.request.user.account, status='Completed')
+        total_completed_investments = completed_investments.count()
+        completed_investment_balance = completed_investments.aggregate(Sum('amount'))['amount__sum'] or 0
+        # Getting the main account balance
+        main_account = MainAccount.objects.filter(profile=self.request.user.account)
+        main_account_balance = main_account.aggregate(Sum('amount'))['amount__sum'] or 0
+        account_balance = main_account_balance+starting_balance+completed_deposit_balance-completed_investment_balance
+        # amount_field.validators.append(MinValueValidator(account_balance))
+
+        if amount_field > account_balance:
+            form.add_error('amount', 'Your account is low. Kindly fund your account')
+            return self.form_invalid(form)
+
         return super().form_valid(form)
 
 class WithdrawalListView(LoginRequiredMixin, ListView):
